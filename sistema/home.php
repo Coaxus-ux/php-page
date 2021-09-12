@@ -3,7 +3,7 @@ session_start();
 if (empty($_SESSION['active'])) {
     header('location: ../login.php');
 }
-?>
+?> 
 <!DOCTYPE html>
 <html lang="en" data-theme="dracula">
 

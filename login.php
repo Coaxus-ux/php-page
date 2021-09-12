@@ -33,7 +33,13 @@ if (!empty($_SESSION['active'])) {
                 $_SESSION['correo'] = $data['correo'];
                 $_SESSION['productos'] = $data['productos'];
                 $_SESSION['rol'] = $data['rol'];
-                header('location: sistema/home.php');
+                if($data['rol'] == 1){
+                    header('location: sistema/admin.php');
+                }else{
+                    header('location: sistema/home.php');
+                    
+                }
+                
             } else {
                 $alert = true;
                 $mensaje = '<div class="alert my-2 ">

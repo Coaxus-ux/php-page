@@ -8,4 +8,4 @@
 	if(!$connection){
 		echo "Error en la conección";
 	}
-?>
+?> 
