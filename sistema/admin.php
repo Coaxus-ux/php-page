@@ -33,7 +33,7 @@ if($_SESSION['rol'] != 1){
                 <a href="#" class="btn btn-primary w-full mt-4">
                     Categorias
                 </a>
-                <a href="#" class="btn btn-primary w-full mt-4">
+                <a href="usuarios.php" class="btn btn-primary w-full mt-4">
                     Usuarios
                 </a>
                 <a href="salir.php" class="btn btn-accent w-full mt-4">
