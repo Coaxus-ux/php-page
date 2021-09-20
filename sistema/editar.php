@@ -1,5 +1,7 @@
 <?php
 include "../connection.php";
+session_start();
+
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $query = mysqli_query($connection, "SELECT * FROM productos WHERE id = '$id'");
@@ -13,10 +15,6 @@ if (isset($_GET['id'])) {
     }
 }
 
-
-
-
-
 $alert = false;
 $mensaje = '';
 if (!empty($_POST['update'])) {
@@ -27,8 +25,6 @@ if (!empty($_POST['update'])) {
     $linea = $_POST['linea'];
     $sub_linea = $_POST['sublinea'];
     $costoProducto = $_POST['costoProducto'];
-
-    echo $id, $producto, $descripcionProducto, $stockProducto, " linea: ", $linea, " sublinea: ", $sub_linea, "-", $costoProducto;
     if (empty($producto) || empty($descripcionProducto) || empty($stockProducto) || empty($costoProducto)) {
         $alert = true;
         $mensaje = '<div class="alert my-2 ">
@@ -42,7 +38,6 @@ if (!empty($_POST['update'])) {
     } else {
         $alert = false;
         $query = "UPDATE productos SET nombre = '$producto', descripcion='$descripcionProducto', stock = '$stockProducto', ultimo_costo='$costoProducto', id_linea='$linea', id_sublinea = '$sub_linea' WHERE id = '$id' ";
-        echo $query;
         $result_q = mysqli_query($connection, $query);
         if(!$result_q) {
             $alert = true;
@@ -65,7 +60,6 @@ if (!empty($_POST['update'])) {
                 <label>Producto actualizado con exito.</label>
             </div>
             </div>';
-            header("Location: productos.php");
         }
     }
 }

@@ -3,9 +3,12 @@ session_start();
 if (empty($_SESSION['active'])) {
     header('location: ../login.php');
 }
-if($_SESSION['rol'] != 1){
-    header('location: home.php');
+if ($_SESSION['rol'] != 1) {
+    header('location: usuarios_pages/main.php');
 }
+/* $fechaActual = date('Y-m-d');
+   
+echo $fechaActual; */
 ?>
 <!DOCTYPE html>
 <html lang="en" data-theme="dracula">
@@ -24,19 +27,19 @@ if($_SESSION['rol'] != 1){
                 <label for="" class="block mt-3 text-sm text-gray-700 text-center font-semibold">
                     ADMIN PANEL
                 </label>
-                <a href="productos.php" class="btn btn-primary w-full mt-4">
+                <a href="productos.php" class="btn btn-primary w-full mt-4 hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                     Productos
                 </a>
-                <a href="#" class="btn btn-primary w-full mt-4">
+                <a href="#" class="btn btn-primary w-full mt-4 hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                     Movimientos
                 </a>
-                <a href="#" class="btn btn-primary w-full mt-4">
+                <a href="categoria.php" class="btn btn-primary w-full mt-4 hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                     Categorias
                 </a>
-                <a href="usuarios.php" class="btn btn-primary w-full mt-4">
+                <a href="usuarios.php" class="btn btn-primary w-full mt-4 hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                     Usuarios
                 </a>
-                <a href="salir.php" class="btn btn-accent w-full mt-4">
+                <a href="salir.php" class="btn btn-accent w-full mt-4 hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                     Salir
                 </a>
             </div>

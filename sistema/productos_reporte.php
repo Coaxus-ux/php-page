@@ -1,6 +1,14 @@
 <?php
 require_once "../connection.php";
-$query_productos = mysqli_query($connection, "SELECT * FROM productos");
+session_start();
+$id_usuario = $_SESSION['id'];
+$query_productos;
+if($_SESSION['rol'] == 1){
+    $query_productos = mysqli_query($connection, "SELECT * FROM productos");
+}else{
+    $query_productos = mysqli_query($connection, "SELECT * FROM productos WHERE id_user = '$id_usuario'");
+}
+
 $result_productos = mysqli_num_rows($query_productos);
 
 ?>

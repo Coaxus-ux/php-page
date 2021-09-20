@@ -16,9 +16,9 @@
                 </div>
                 <nav :class="{'flex': open, 'hidden': !open}" class="flex-col flex-grow hidden pb-4 md:pb-0 md:flex md:justify-end md:flex-row">
                     <a class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 hover:bg-secondary focus:text-gray-900 hover:bg-secondary focus:bg-secondary focus:outline-none focus:shadow-outline text-white hover:text-black" href="productos.php">Productos</a>
-                    <a class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 hover:bg-secondary focus:text-gray-900 hover:bg-secondary focus:bg-secondary focus:outline-none focus:shadow-outline text-white hover:text-black" href="#">Usuarios</a>
+                    <a class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 hover:bg-secondary focus:text-gray-900 hover:bg-secondary focus:bg-secondary focus:outline-none focus:shadow-outline text-white hover:text-black" href="usuarios.php">Usuarios</a>
                     <a class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 hover:bg-secondary focus:text-gray-900 hover:bg-secondary focus:bg-secondary focus:outline-none focus:shadow-outline text-white hover:text-black" href="#">Movimientos</a>
-                    <a class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 hover:bg-secondary focus:text-gray-900 hover:bg-secondary focus:bg-secondary focus:outline-none focus:shadow-outline text-white hover:text-black" href="#">Categorias</a>
+                    <a class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 hover:bg-secondary focus:text-gray-900 hover:bg-secondary focus:bg-secondary focus:outline-none focus:shadow-outline text-white hover:text-black" href="categoria.php">Categorias</a>
                     <a class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 hover:bg-secondary focus:text-gray-900 hover:bg-secondary focus:bg-secondary focus:outline-none focus:shadow-outline text-white hover:text-black" href="salir.php">Salir</a>
                     
                 </nav>

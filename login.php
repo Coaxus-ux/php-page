@@ -36,7 +36,7 @@ if (!empty($_SESSION['active'])) {
                 if($data['rol'] == 1){
                     header('location: sistema/admin.php');
                 }else{
-                    header('location: sistema/home.php');
+                    header('location: sistema/usuarios_pages/main.php');
                     
                 }
                 
