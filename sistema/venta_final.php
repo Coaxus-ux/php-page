@@ -16,22 +16,26 @@ $nombre_producto = $result_query_producto['nombre'];
 $stock_producto = $result_query_producto['stock'];
 $nueva_cantidad = $stock_producto - $cantida_producto;
 
+$query_id_movimiento = mysqli_query($connection, "SELECT * FROM movimientos ORDER BY movimientos.id DESC LIMIT 1");
+$movimientos_info = mysqli_fetch_array($query_id_movimiento);
+$id_movimiento = $movimientos_info['id'];
 
 if (!empty($_POST['done'])) {
-    $query_id_movimiento = mysqli_query($connection, "SELECT * FROM movimientos ORDER BY movimientos.id DESC LIMIT 1");
-    $movimientos_info = mysqli_fetch_array($query_id_movimiento);
-    $id_movimiento = $movimientos_info['id'];
+
     $query_articulo_movimiento = mysqli_query($connection, "INSERT INTO articulo_movimientos(id_movimiento, id_producto, cantidad, valor) VALUE('$id_movimiento', '$id_producto', '$cantida_producto', '$precio_final')");
 
-    if($query_articulo_movimiento){
-        if($nueva_cantidad == 0){
+    if ($query_articulo_movimiento) {
+        if ($nueva_cantidad == 0) {
             $query_delete_producto = mysqli_query($connection, "DELETE FROM productos WHERE id = '$id_producto'");
-        }else{
+        } else {
             $query = mysqli_query($connection, "UPDATE productos SET stock = '$nueva_cantidad' WHERE id = '$id_producto' ");
-            
         }
         header('location: usuarios_pages/main.php');
     }
+}
+if (!empty($_POST['cancel'])) {
+    $query_delete_movimiento = mysqli_query($connection, "DELETE FROM movimientos WHERE id = '$id_movimiento'");
+    header('location: usuarios_pages/main.php');
 }
 ?>
 
@@ -81,10 +85,9 @@ if (!empty($_POST['done'])) {
                     <div class="mt-7 ">
                         <input type="submit" name="done" value="Confirmar venta" class="w-full btn btn-primary  text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                     </div>
+                    <input type="submit" name="cancel" value="Cancelar compra" class="btn btn-secundary w-full mt-2 hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                 </form>
-                <a href="productos.php" class="btn btn-secundary w-full mt-2 hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
-                    Cancelar compra
-                </a>
+
 
 
 

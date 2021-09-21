@@ -43,7 +43,7 @@ $result_productos = mysqli_num_rows($query_productos);
                             <input class="btn" type="submit" name="generar_pdf" value="PDF"></input>
                         </li>
                         <li>
-                            <a>excel</a>
+                            <a  class="btn mt-1" href="productos_excel.php">excel</a>
                         </li>
 
                     </ul>
