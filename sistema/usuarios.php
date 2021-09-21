@@ -25,7 +25,6 @@ $result_productos = mysqli_num_rows($query_productos);
 
 
 <body>
-    <?php include "includes/adminNav.php" ?>
     <div class="overflow-x-auto mx-16 my-6">
         <div class="flex mx-16">
             <a href="agregarProductos.php" class="btn btn-primary w-1/2 mr-10 mb-3 hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">

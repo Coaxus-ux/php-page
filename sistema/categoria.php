@@ -22,15 +22,15 @@ $result_subLinea = mysqli_num_rows($query_subLinea);
     <?php include "includes/link.php" ?>
 </head>
 
-
 <body>
-    <?php include "includes/adminNav.php" ?>
-    <div class="overflow-x-auto mx-16 ">
+    <div class="overflow-x-auto mx-16 mt-10 ">
         <div class="flex mx-16">
-            <a href="agregarProductos.php" class="btn btn-primary w-56 mr-10 mb-3 hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
-                Agregar productos
+            <a href="agregar_categoria.php" class="btn btn-primary w-56 mr-10 mb-3 hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                Agregar Categoria
             </a>
-            </form>
+            <a href="agregar_subcategoria.php" class="btn btn-primary w-56 mr-10 mb-3 hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                Agregar Sub-categoria
+            </a>
             <a href="admin.php" class="btn btn-warning w-56 mb-3 hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                 Volver
             </a>
@@ -64,14 +64,11 @@ $result_subLinea = mysqli_num_rows($query_subLinea);
                                     <td><?php echo $linea['descripcion'] ?></td>
                                     <td><?php echo $num_rows_productos ?></td>
                                     <td>
-                                        <a href="editar_usuario.php?id=<?php echo $usuario['id'] ?>" class="btn btn-info hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                                        <a href="editar_categoria.php?id=<?php echo $linea['id'] ?>" class="btn btn-info hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                                             <i class="uil uil-pen"></i> Editar
                                         </a>
-                                        <a href="borrar_usuario.php?id=<?php echo $usuario['id'] ?>" class="btn btn-error hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                                        <a href="borrar_categoria.php?id=<?php echo $linea['id'] ?>" class="btn btn-error hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                                             <i class="uil uil-times"></i> Borrar
-                                        </a>
-                                        <a href="borrar_usuario.php?id=<?php echo $usuario['id'] ?>" class="btn btn-secundary hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
-                                            <i class="uil uil-file-minus"></i> listar
                                         </a>
                                     </td>
                                 </tr>
@@ -108,14 +105,11 @@ $result_subLinea = mysqli_num_rows($query_subLinea);
                                 <td><?php echo $sublinea['descripcion'] ?></td>
                                 <td><?php echo $num_rows_productos_sublinea ?></td>
                                 <td>
-                                    <a href="editar_usuario.php?id=<?php echo $usuario['id'] ?>" class="btn btn-info hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                                    <a href="editar_subcategoria.php?id=<?php echo $sublinea['id'] ?>" class="btn btn-info hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                                         <i class="uil uil-pen"></i> Editar
                                     </a>
-                                    <a href="borrar_usuario.php?id=<?php echo $usuario['id'] ?>" class="btn btn-error hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                                    <a href="borrar_subcategoria.php?id=<?php echo $sublinea['id'] ?>" class="btn btn-error hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                                         <i class="uil uil-times"></i> Borrar
-                                    </a>
-                                    <a href="borrar_usuario.php?id=<?php echo $usuario['id'] ?>" class="btn btn-secundary hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
-                                    <i class="uil uil-file-minus"></i> listar
                                     </a>
                                 </td>
                             </tr>

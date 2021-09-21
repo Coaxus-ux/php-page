@@ -31,7 +31,7 @@ if (empty($_SESSION['active'])) {
                             <a href="../agregarProductos.php">Compra</a>
                         </li>
                         <li>
-                            <a>Venta</a>
+                            <a href="../venta.php">Venta</a>
                         </li>
                     </ul>
                 </div>
