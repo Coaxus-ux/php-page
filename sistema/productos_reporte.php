@@ -4,9 +4,9 @@ session_start();
 $id_usuario = $_SESSION['id'];
 $query_productos;
 if($_SESSION['rol'] == 1){
-    $query_productos = mysqli_query($connection, "SELECT * FROM productos");
+    $query_productos = mysqli_query($connection, "SELECT * FROM productos WHERE estado = 1");
 }else{
-    $query_productos = mysqli_query($connection, "SELECT * FROM productos WHERE id_user = '$id_usuario'");
+    $query_productos = mysqli_query($connection, "SELECT * FROM productos WHERE id_user = '$id_usuario' AND estado = 1");
 }
 
 $result_productos = mysqli_num_rows($query_productos);

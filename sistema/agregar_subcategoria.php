@@ -11,14 +11,13 @@ if ($_SESSION['rol'] != 1) {
 $alert = false;
 $mensaje = '';
 if (!empty($_POST)) {
+
     $nombreCategoriaSubcategoria = $_POST['nombreCategoriaSubcategoria'];
-
-
-
+    $categoria =$_POST['linea'];
     $user = $_SESSION['id'];
     if (empty($nombreCategoriaSubcategoria)) {
         $alert = true;
-        $mensaje = '<div class="alert my-2 ">
+        $mensaje = '<div class="alert my-2">
             <div class="flex-1 ">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#ff5722" class="w-6 h-6 mx-2">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
@@ -43,8 +42,7 @@ if (!empty($_POST)) {
         </div>';
         } else {
             $alert = false;
-            $query = "INSERT INTO sublinea(descripcion) VALUES('$nombreCategoriaSubcategoria')";
-            
+            $query = "INSERT INTO sublinea(categoria_id, descripcion) VALUES('$categoria', '$nombreCategoriaSubcategoria')";
             $result_q = mysqli_query($connection, $query);
             
             if (!$result_q ) {
@@ -96,7 +94,24 @@ if (!empty($_POST)) {
                     <div class="form-control">
                         <input type="text" placeholder="Nombre SubCategoria" name="nombreCategoriaSubcategoria" class="input input-bordered mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg  focus:ring-0">
                     </div>
+                    <?php 
+                        $query_linea = mysqli_query($connection, "SELECT * FROM linea");
+                        $result_linea = mysqli_num_rows($query_linea);
+                    ?>
+                    <label for="linea" class="block mt-3 text-sm-">¿A que categoria pertenece?</label>
+                    <select name="linea" class="select select-bordered w-full mt-1">
+                        <option disabled="disabled" selected="selected">Categoria</option>
 
+                        <?php
+                        if ($result_linea > 0) {
+                            while ($linea = mysqli_fetch_array($query_linea)) {
+                        ?>
+                                <option value="<?php echo $linea['id'] ?>"><?php echo $linea['descripcion'] ?></option>
+                        <?php
+                            }
+                        }
+                        ?>
+                    </select>
 
                     <?php
                     echo $alert ? $mensaje

@@ -7,9 +7,8 @@ if ($_SESSION['rol'] != 1) {
     header('location: ../login.php');
 }
 require_once "../connection.php";
-$query_linea = mysqli_query($connection, "SELECT * FROM linea");
-$query_subLinea = mysqli_query($connection, "SELECT * FROM sublinea");
-
+$query_linea = mysqli_query($connection, "SELECT * FROM linea  ");
+$query_subLinea = mysqli_query($connection, "SELECT * FROM sublinea   ");
 $result_linea = mysqli_num_rows($query_linea);
 $result_subLinea = mysqli_num_rows($query_subLinea);
 
@@ -46,7 +45,8 @@ $result_subLinea = mysqli_num_rows($query_subLinea);
                             <th>ID</th>
                             <th>Nombre categoria</th>
                             <th>Numero de productos</th>
-                            <th>Acciones</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
 
                         </tr>
                     </thead>
@@ -63,13 +63,19 @@ $result_subLinea = mysqli_num_rows($query_subLinea);
                                     <th> <?php echo $linea['id'] ?></th>
                                     <td><?php echo $linea['descripcion'] ?></td>
                                     <td><?php echo $num_rows_productos ?></td>
+                                    <td><?php 
+                                    if($linea['estado']){
+                                        echo "Disponible";
+                                    }else{
+                                        echo "Oculta";
+                                    }
+                                        
+                                    ?></td>
                                     <td>
                                         <a href="editar_categoria.php?id=<?php echo $linea['id'] ?>" class="btn btn-info hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                                             <i class="uil uil-pen"></i> Editar
                                         </a>
-                                        <a href="borrar_categoria.php?id=<?php echo $linea['id'] ?>" class="btn btn-error hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
-                                            <i class="uil uil-times"></i> Borrar
-                                        </a>
+
                                     </td>
                                 </tr>
                         <?php
@@ -88,7 +94,9 @@ $result_subLinea = mysqli_num_rows($query_subLinea);
                         <th>ID</th>
                         <th>Nombre sub-categoria</th>
                         <th>Numero de productos</th>
-                        <th>Acciones</th>
+                        <th>Categoria</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -96,21 +104,30 @@ $result_subLinea = mysqli_num_rows($query_subLinea);
                     if ($result_subLinea > 0) {
                         while ($sublinea = mysqli_fetch_array($query_subLinea)) {
                             $idS = $sublinea['id'];
+                            $id_linea = $sublinea['categoria_id'];
                             $query_productos_sublinea = mysqli_query($connection, "SELECT * FROM productos WHERE id_sublinea = '$idS'");
-
+                            $query_category_sublinea = mysqli_query($connection, "SELECT * FROM linea WHERE id = '$id_linea'");
+                            $array_categoria_linea = mysqli_fetch_array($query_category_sublinea);
                             $num_rows_productos_sublinea = mysqli_num_rows($query_productos_sublinea);
                     ?>
                             <tr>
                                 <th> <?php echo $sublinea['id'] ?></th>
                                 <td><?php echo $sublinea['descripcion'] ?></td>
                                 <td><?php echo $num_rows_productos_sublinea ?></td>
+                                <td><?php echo $array_categoria_linea['descripcion'] ?></td>
+                                <td><?php 
+                                    if($sublinea['estado']){
+                                        echo "Disponible";
+                                    }else{
+                                        echo "Oculta";
+                                    }
+                                        
+                                    ?></td>
                                 <td>
                                     <a href="editar_subcategoria.php?id=<?php echo $sublinea['id'] ?>" class="btn btn-info hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                                         <i class="uil uil-pen"></i> Editar
                                     </a>
-                                    <a href="borrar_subcategoria.php?id=<?php echo $sublinea['id'] ?>" class="btn btn-error hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
-                                        <i class="uil uil-times"></i> Borrar
-                                    </a>
+
                                 </td>
                             </tr>
                     <?php

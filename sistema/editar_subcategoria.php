@@ -14,14 +14,19 @@ if (isset($_GET['id'])) {
     if (mysqli_num_rows($query) == 1) {
         $sublinea = mysqli_fetch_array($query);
         $descripcion = $sublinea['descripcion'];
+        $categoria_id = $sublinea['categoria_id'];
+    }
+    $query_res = mysqli_query($connection, "SELECT * FROM linea WHERE id = '$categoria_id'");
+    if (mysqli_num_rows($query_res) == 1) {
+        $linea = mysqli_fetch_array($query_res);
+        $estado_linea = $linea['estado'];
     }
 }
-
-
 $alert = false;
 $mensaje = '';
 if (!empty($_POST)) {
     $id = $_GET['id'];
+    $estado = intval($_POST['estado']);
     $nombresubcategoria = $_POST['nombresubcategoria'];
     if (empty($nombresubcategoria)) {
         $alert = true;
@@ -34,12 +39,23 @@ if (!empty($_POST)) {
             </div>
             </div>';
     } else {
-        $alert = false;
-        $query = "UPDATE sublinea SET descripcion='$nombresubcategoria' WHERE id = '$id' ";
-        $result_q = mysqli_query($connection, $query);
-        if(!$result_q) {
+        if ($estado_linea == 0) {
             $alert = true;
             $mensaje = '<div class="alert my-2 ">
+            <div class="flex-1 ">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#ff5722" class="w-6 h-6 mx-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
+                </svg>
+                <label>No puedes modificar esta Subcategoria.</label>
+            </div>
+            </div>';
+        } else {
+            $alert = false;
+            $query = "UPDATE sublinea SET descripcion='$nombresubcategoria', estado='$estado' WHERE id = '$id' ";
+            $result_q = mysqli_query($connection, $query);
+            if (!$result_q) {
+                $alert = true;
+                $mensaje = '<div class="alert my-2 ">
             <div class="flex-1 ">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#ff5722" class="w-6 h-6 mx-2">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
@@ -47,18 +63,10 @@ if (!empty($_POST)) {
                 <label>Actualizacion de la categoria fallo.</label>
             </div>
             </div>';
-        }
-        if($result_q) {
-            $alert = true;
-            $mensaje = '<div class="alert alert-success my-2 ">
-            <div class="flex-1 ">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-6 h-6 mx-2 stroke-current">          
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>                
-          </svg> 
-                <label>Categoria actualizado con exito.</label>
-            </div>
-            </div>';
-            header("Location: categoria.php");
+            }
+            if ($result_q) {
+                header("Location: categoria.php");
+            }
         }
     }
 }
@@ -86,6 +94,12 @@ if (!empty($_POST)) {
                     <div class="form-control">
                         <input type="text" value="<?php echo $descripcion ?>" placeholder="Nombre Categoria" name="nombresubcategoria" class="input input-bordered mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg  focus:ring-0">
                     </div>
+                    <select name="estado" class="select select-bordered w-full mt-1">
+                        <option disabled="disabled" selected="selected">Estado</option>
+                        <option value="1">Disponible</option>
+                        <option value="0">Oculta</option>
+
+                    </select>
 
 
                     <?php

@@ -3,7 +3,7 @@ $alert = false;
 $mensaje = '';
 session_start();
 if (!empty($_SESSION['active'])) {
-    header('location: sistema/home.php');
+    header('location: sistema/admin.php');
 } else {
     if (!empty($_POST)) {
         if (empty($_POST['usuario']) || empty($_POST['contra'])) {
@@ -20,7 +20,7 @@ if (!empty($_SESSION['active'])) {
             require_once "connection.php";
             $user = mysqli_real_escape_string($connection, $_POST['usuario']);
             $pass = md5(mysqli_real_escape_string($connection, $_POST['contra'])); 
-            $query = mysqli_query($connection, "SELECT * FROM usuarios WHERE correo='$user' AND contra = '$pass'");
+            $query = mysqli_query($connection, "SELECT * FROM usuarios WHERE correo='$user' AND contra = '$pass' AND estado=1");
 
             $result = mysqli_num_rows($query);
 
@@ -123,22 +123,6 @@ if (!empty($_SESSION['active'])) {
                         </label>
                         <hr class="border-gray-300 border-1 w-full rounded-md">
                     </div>
-
-                    <div class="flex mt-7 justify-center w-full">
-                        <div data-tip="Tu empresa te dio un id unico con el cual puedes ingresar" class="tooltip tooltip-secondary">
-                            <button class="btn btn-secondary mr-2">
-                                ID unico
-                            </button>
-                        </div>
-
-                        <div data-tip="Se te enviara un mensaje de texto con tu credenciales" class="tooltip tooltip-accent">
-                            <button class="btn btn-accent">
-                                SMS
-                            </button>
-                        </div>
-
-                    </div>
-
                     <div class="mt-7">
                         <div class="flex justify-center items-center">
                             <label class="mr-2 text-black">¿Eres nuevo?</label>

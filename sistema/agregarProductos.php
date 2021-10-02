@@ -27,30 +27,16 @@ if (!empty($_POST)) {
             </div>
             </div>';
     } else {
-        $query_producto = mysqli_query($connection, "SELECT * FROM productos WHERE nombre = '$producto'");
-        $result_query_producto = mysqli_fetch_array($query_producto);
 
+        $alert = false;
+        $query = "INSERT INTO productos(nombre, descripcion, stock, ultimo_costo, id_user, id_linea, id_sublinea) VALUES('$producto','$descripcionProducto', 2, 1, '$user', '$linea', '$sub_linea')";
+        $query_movimientos = "INSERT INTO movimientos(id_usuario, tipo_movimiento, cedula_movimiento, nombre_movimiento, fecha_movimiento, valor_total_movimiento) VALUES('$user', 1, '$cedula', '$nombre_vendedor', '$fecha_movimiento', 0)";
+        $result_q = mysqli_query($connection, $query);
+        $result_movimientos = mysqli_query($connection, $query_movimientos);
 
-        if ($result_query_producto > 0) {
+        if (!$result_q || !$result_movimientos) {
             $alert = true;
             $mensaje = '<div class="alert my-2 ">
-        <div class="flex-1 ">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#ff5722" class="w-6 h-6 mx-2">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
-            </svg>
-            <label>El producto ya esta registrado.</label>
-        </div>
-        </div>';
-        } else {
-            $alert = false;
-            $query = "INSERT INTO productos(nombre, descripcion, stock, ultimo_costo, id_user, id_linea, id_sublinea) VALUES('$producto','$descripcionProducto', 2, 1, '$user', '$linea', '$sub_linea')";
-            $query_movimientos = "INSERT INTO movimientos(tipo_movimiento, cedula_movimiento, nombre_movimiento, fecha_movimiento, valor_total_movimiento) VALUES(1, '$cedula', '$nombre_vendedor', '$fecha_movimiento', 0)";
-            $result_q = mysqli_query($connection, $query);
-            $result_movimientos = mysqli_query($connection, $query_movimientos);
-
-            if (!$result_q || !$result_movimientos) {
-                $alert = true;
-                $mensaje = '<div class="alert my-2 ">
             <div class="flex-1 ">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#ff5722" class="w-6 h-6 mx-2">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
@@ -58,10 +44,10 @@ if (!empty($_POST)) {
                 <label>Registro del producto fallo.</label>
             </div>
             </div>';
-            }
-            if ($result_q) {
-                $alert = true;
-                $mensaje = '<div class="alert alert-success my-2 ">
+        }
+        if ($result_q) {
+            $alert = true;
+            $mensaje = '<div class="alert alert-success my-2 ">
             <div class="flex-1 ">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-6 h-6 mx-2 stroke-current">          
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>                
@@ -70,18 +56,16 @@ if (!empty($_POST)) {
             </div>
             </div>';
             header('location: articulo_movimiento.php');
-            }
         }
     }
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en" data-theme="dracula">
 
 <head>
     <?php include "includes/link.php" ?>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 
@@ -107,20 +91,17 @@ if (!empty($_POST)) {
                         <textarea maxlength="600" class="textarea h-24 textarea-bordered" placeholder="Descripcion del producto" name="descripcionProducto"></textarea>
                     </div>
                     <?php
-                    $query_linea = mysqli_query($connection, "SELECT * FROM linea");
-                    $query_subLinea = mysqli_query($connection, "SELECT * FROM sublinea");
+                    $query_linea = mysqli_query($connection, "SELECT * FROM linea WHERE estado = 1");
                     $result_linea = mysqli_num_rows($query_linea);
-                    $result_subLinea = mysqli_num_rows($query_subLinea);
-
-
 
                     ?>
-                    <select name="linea" class="select select-bordered w-full mt-1">
+                    <select id="select1" name="linea" class="select select-bordered w-full mt-1">
                         <option disabled="disabled" selected="selected">Categoria</option>
 
                         <?php
                         if ($result_linea > 0) {
                             while ($linea = mysqli_fetch_array($query_linea)) {
+
                         ?>
                                 <option value="<?php echo $linea['id'] ?>"><?php echo $linea['descripcion'] ?></option>
                         <?php
@@ -129,18 +110,29 @@ if (!empty($_POST)) {
                         ?>
                     </select>
 
-                    <select name="sublinea" class="select select-bordered w-full mt-1">
-                        <option disabled="disabled" selected="selected">Subcategoria</option>
-                        <?php
-                        if ($result_subLinea > 0) {
-                            while ($subLinea = mysqli_fetch_array($query_subLinea)) {
-                        ?>
-                                <option value="<?php echo $subLinea['id'] ?>"><?php echo $subLinea['descripcion'] ?></option>
-                        <?php
-                            }
+                    <div id="select2">
+
+                    </div>
+                    <script>
+                        $(document).ready(function() {
+                            recargarLista();
+                            $('#select1').change(function() {
+                                recargarLista();
+                            });
+                        })
+                    </script>
+                    <script>
+                        function recargarLista() {
+                            $.ajax({
+                                type: "POST",
+                                url: "subcategoria_llamado.php",
+                                data: "categoria=" + $('#select1').val(),
+                                success: function(r) {
+                                    $('#select2').html(r);
+                                }
+                            })
                         }
-                        ?>
-                    </select>
+                    </script>
 
                     <hr class="mt-2">
                     <label class="block mt-1 text-sm text-gray-500 ">
@@ -156,7 +148,7 @@ if (!empty($_POST)) {
                         Fecha del movimiento
                     </label>
                     <div class="form-control">
-                        <input type="date"  name="fecha_movimiento" class="input input-bordered mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg  focus:ring-0">
+                        <input type="date" name="fecha_movimiento" class="input input-bordered mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg  focus:ring-0">
                     </div>
 
                     <?php

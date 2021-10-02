@@ -35,9 +35,13 @@ if (empty($_SESSION['active'])) {
                         </li>
                     </ul>
                 </div>
+                <a href="../movimientos.php" class="btn btn-primary w-full mt-4 hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                    Mis movimiento
+                </a>
                 <a href="mi_cuenta.php" class="btn btn-primary w-full mt-4 hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                     Mi cuenta
                 </a>
+                
                 <a href="../salir.php" class="btn btn-accent w-full mt-4 hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                     Salir
                 </a>

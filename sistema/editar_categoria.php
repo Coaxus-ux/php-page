@@ -23,6 +23,8 @@ $mensaje = '';
 if (!empty($_POST)) {
     $id = $_GET['id'];
     $nombreCategoria = $_POST['nombreCategoria'];
+    $estado = intval($_POST['estado']);
+
 
     if (empty($nombreCategoria)) {
         $alert = true;
@@ -36,7 +38,7 @@ if (!empty($_POST)) {
             </div>';
     } else {
         $alert = false;
-        $query = "UPDATE linea SET descripcion='$nombreCategoria' WHERE id = '$id' ";
+        $query = "UPDATE linea SET descripcion='$nombreCategoria', estado='$estado' WHERE id = '$id' ";
         $result_q = mysqli_query($connection, $query);
         if(!$result_q) {
             $alert = true;
@@ -49,17 +51,14 @@ if (!empty($_POST)) {
             </div>
             </div>';
         }
-        if($result_q) {
-            $alert = true;
-            $mensaje = '<div class="alert alert-success my-2 ">
-            <div class="flex-1 ">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-6 h-6 mx-2 stroke-current">          
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>                
-          </svg> 
-                <label>Categoria actualizado con exito.</label>
-            </div>
-            </div>';
+        if ($result_q) {
+            if ($estado == 0) {
+                $query_sub = "UPDATE sublinea SET estado='$estado' WHERE categoria_id = '$id' ";
+                $result_s = mysqli_query($connection, $query_sub);
+            }
+            
             header("Location: categoria.php");
+            
         }
     }
 }
@@ -87,7 +86,12 @@ if (!empty($_POST)) {
                     <div class="form-control">
                         <input type="text" value="<?php echo $descripcion ?>" placeholder="Nombre Categoria" name="nombreCategoria" class="input input-bordered mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg  focus:ring-0">
                     </div>
+                    <select name="estado" class="select select-bordered w-full mt-1">
+                        <option disabled="disabled" selected="selected">Estado</option>
+                        <option  value="1" >Disponible</option>
+                        <option  value="0" >Oculta</option>
 
+                    </select>
 
                     <?php
                     echo $alert ? $mensaje

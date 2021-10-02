@@ -1,6 +1,9 @@
 <?php
-header("Content-Type: application/xls");
+header("Content-Type: application/vnd.ms-excel; charset=utf-8");
 header("Content-Disposition: attachment; filename=reporte.xls");
+header("Expires: 0");
+header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+header("Cache-Control: private", false);
 session_start();
 require_once "../connection.php";
 if (empty($_SESSION['active'])) {
@@ -19,7 +22,11 @@ $result_productos = mysqli_num_rows($query_productos);
 
 ?>
 <!DOCTYPE html>
-<html lang="en" data-theme="dracula">
+<html lang="es" data-theme="dracula">
+<head>
+
+      <meta charset="utf-8"/>
+   </head>
 <table class="table w-full table-zebra">
     <thead>
         <tr>

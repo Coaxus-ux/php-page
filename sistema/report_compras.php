@@ -4,7 +4,7 @@ use Spipu\Html2Pdf\Html2Pdf;
 if(isset($_POST['generar_pdf'])){
     
     ob_start();
-    require_once'productos_reporte.php';
+    require_once'informe_comprar.php';
     $html = ob_get_clean();
 
 

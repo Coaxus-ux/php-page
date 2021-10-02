@@ -7,6 +7,7 @@ if (empty($_SESSION['active'])) {
 
 $alert = false;
 $mensaje = '';
+$user = $_SESSION['id'];
 if (!empty($_POST)) {
     $cantida_producto = $_POST['cantida_producto'];
     $producto_nombre = $_POST['producto_nombre'];
@@ -14,7 +15,7 @@ if (!empty($_POST)) {
     $nombre_vendedor = $_POST['nombre_vendedor'];
     $fecha_movimiento = $_POST['fecha_movimiento'];
 
-    $user = $_SESSION['id'];
+    
     if (empty($cantida_producto) || empty($producto_nombre) || empty($nombre_vendedor) || empty($cedula) || empty($fecha_movimiento)) {
         $alert = true;
         $mensaje = '<div class="alert my-2 ">
@@ -43,7 +44,7 @@ if (!empty($_POST)) {
         </div>
         </div>';
         }else{
-            $query_movimiento = mysqli_query($connection, "INSERT INTO movimientos(tipo_movimiento, cedula_movimiento, nombre_movimiento, fecha_movimiento, valor_total_movimiento) VALUES(2, '$cedula', '$nombre_vendedor', '$fecha_movimiento', '$precio_siniva')");
+            $query_movimiento = mysqli_query($connection, "INSERT INTO movimientos(id_usuario, tipo_movimiento, cedula_movimiento, nombre_movimiento, fecha_movimiento, valor_total_movimiento) VALUES('$user', 2, '$cedula', '$nombre_vendedor', '$fecha_movimiento', '$precio_siniva')");
             $_SESSION['precio_final'] = $precio_final;
             $_SESSION['cantidad_producto'] = $cantida_producto;
             $_SESSION['id_producto'] = $producto_nombre;
@@ -71,14 +72,14 @@ if (!empty($_POST)) {
             <div class="card bg-red-400 shadow-lg  w-full h-full rounded-3xl absolute  transform rotate-6"></div>
             <div class="relative w-full rounded-3xl  px-6 py-4 bg-gray-100 shadow-md">
                 <label for="" class="block mt-3 text-xl text-black text-center font-semibold">
-                    Agregar productos
+                    Vender producto
                 </label>
                 <form action="" method="POST" class="mt-10 ">
                     <label class="block mt-1 text-sm text-gray-500 ">
                         Datos de la venta
                     </label>
                     <?php
-                    $query_linea = mysqli_query($connection, "SELECT * FROM productos");
+                    $query_linea = mysqli_query($connection, "SELECT * FROM productos WHERE id_user = '$user' AND estado = 1");
                     $result_linea = mysqli_num_rows($query_linea);
                     ?>
                     <select name="producto_nombre" class="select select-bordered w-full mt-1">

@@ -26,7 +26,7 @@ if (!empty($_POST['done'])) {
 
     if ($query_articulo_movimiento) {
         if ($nueva_cantidad == 0) {
-            $query_delete_producto = mysqli_query($connection, "DELETE FROM productos WHERE id = '$id_producto'");
+            $query_delete_producto = mysqli_query($connection, "UPDATE productos SET stock = 0, estado = 0 WHERE id = '$id_producto' ");
         } else {
             $query = mysqli_query($connection, "UPDATE productos SET stock = '$nueva_cantidad' WHERE id = '$id_producto' ");
         }

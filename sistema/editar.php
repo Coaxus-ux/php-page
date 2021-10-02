@@ -69,6 +69,7 @@ if (!empty($_POST['update'])) {
 
 <head>
     <?php include "includes/link.php" ?>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 
@@ -92,21 +93,20 @@ if (!empty($_POST['update'])) {
                         <textarea maxlength="600" class="textarea h-24 textarea-bordered" placeholder="Descripcion del producto" name="descripcionProducto"> <?php echo $descripcion ?></textarea>
                     </div>
                     <div class="form-control">
-                        <input value="<?php echo $stock ?>" type="number" min="0" placeholder="Stock" name="stockProducto" class="input input-bordered mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg  focus:ring-0">
+                        <input disabled="disabled" value="<?php echo $stock ?>" type="number" min="0" placeholder="Stock" name="stockProducto" class="input input-bordered mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg  focus:ring-0">
                     </div>
                     <div class="form-control">
-                        <input value="<?php echo $precio ?>" type="number" min="0" placeholder="Costo" name="costoProducto" class="input input-bordered mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg  focus:ring-0">
+                        <input disabled="disabled" value="<?php echo $precio ?>" type="number" min="0" placeholder="Costo" name="costoProducto" class="input input-bordered mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg  focus:ring-0">
                     </div>
                     <?php
                     $query_linea = mysqli_query($connection, "SELECT * FROM linea");
-                    $query_subLinea = mysqli_query($connection, "SELECT * FROM sublinea");
                     $result_linea = mysqli_num_rows($query_linea);
-                    $result_subLinea = mysqli_num_rows($query_subLinea);
+   
 
 
 
                     ?>
-                    <select name="linea" class="select select-bordered w-full mt-1">
+                    <select id='select1' name="linea" class="select select-bordered w-full mt-1">
                         <option disabled="disabled" selected="selected">Categoria</option>
                         <?php
                         if ($result_linea > 0) {
@@ -119,18 +119,29 @@ if (!empty($_POST['update'])) {
                         ?>
                     </select>
 
-                    <select name="sublinea" class="select select-bordered w-full mt-1">
-                        <option disabled="disabled" selected="selected">Subcategoria</option>
-                        <?php
-                        if ($result_subLinea > 0) {
-                            while ($subLinea = mysqli_fetch_array($query_subLinea)) {
-                        ?>
-                                <option value="<?php echo $subLinea['id'] ?>"><?php echo $subLinea['descripcion'] ?></option>
-                        <?php
-                            }
+                    <div id="select2">
+
+                    </div>
+                    <script>
+                        $(document).ready(function() {
+                            recargarLista();
+                            $('#select1').change(function() {
+                                recargarLista();
+                            });
+                        })
+                    </script>
+                    <script>
+                        function recargarLista() {
+                            $.ajax({
+                                type: "POST",
+                                url: "subcategoria_llamado.php",
+                                data: "categoria=" + $('#select1').val(),
+                                success: function(r) {
+                                    $('#select2').html(r);
+                                }
+                            })
                         }
-                        ?>
-                    </select>
+                    </script>
 
 
 

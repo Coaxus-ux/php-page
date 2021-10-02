@@ -7,10 +7,10 @@ if (empty($_SESSION['active'])) {
 $id_usuario = $_SESSION['id'];
 $url;
 if ($_SESSION['rol'] == 1) {
-    $query_productos = mysqli_query($connection, "SELECT * FROM productos");
+    $query_productos = mysqli_query($connection, "SELECT * FROM productos WHERE estado=1");
     $url = 'admin.php';
 } else {
-    $query_productos = mysqli_query($connection, "SELECT * FROM productos WHERE id_user = '$id_usuario'");
+    $query_productos = mysqli_query($connection, "SELECT * FROM productos WHERE id_user = '$id_usuario' AND estado=1");
     $url = './usuarios_pages/main.php';
 }
 $result_productos = mysqli_num_rows($query_productos);
